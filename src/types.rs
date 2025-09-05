@@ -1,5 +1,7 @@
 use raylib::{color::Color, prelude::RaylibDraw};
 
+use crate::{WINDOW_HEIGHT, WINDOW_WIDTH};
+
 pub struct paddle {
     pub height: i32,
     pub width: i32,
@@ -20,6 +22,9 @@ impl paddle {
         };
         ret_paddle
     }
+    pub fn paddle_ai(&mut self, game_ball: &ball) {
+        todo!()
+    }
 }
 pub struct ball {
     pub x: i32,
@@ -36,7 +41,7 @@ impl ball {
             y: Y,
             radius: R,
             color: clr,
-            dirX: 1,
+            dirX: 2,
             dirY: 0,
         };
         ret_ball
@@ -44,5 +49,17 @@ impl ball {
     pub fn update_pos(&mut self) {
         self.x += self.dirX;
         self.y += self.dirY;
+    }
+    pub fn check_ball_collsion(&mut self, player_paddle: &paddle, ai_paddle: &paddle) {
+        if self.x == 0 {
+            self.dirX = 2;
+        } else if self.x == WINDOW_WIDTH {
+            self.dirX = -2;
+        }
+        if self.x == player_paddle.x + 10 {
+            self.dirX = 2;
+        } else if self.x == ai_paddle.x {
+            self.dirX = -2;
+        }
     }
 }
